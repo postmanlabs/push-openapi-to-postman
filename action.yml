@@ -1,0 +1,41 @@
+name: push-openapi-to-postman
+description: 'Reads a JSON OpenAPI definition from your repo and pushes it to an existing Postman API, creating a new version on it'
+author: David Espí Hernández <davidespi@postman.com>
+branding:
+  icon: arrow-up-circle
+  color: blue
+inputs:
+  postman-api-key:
+    description: 'Postman API Key'
+    required: true
+    default: ''
+  path-to-definition:
+    description: 'Path to the OpenAPI definition file in the repository'
+    required: true
+    default: './openAPI.json'
+  api-id:
+    description: 'Postman API ID'
+    required: true
+    default: 'String'
+  schema-id:
+    description: 'Postman schema id on the previous API'
+    required: true
+    default: 'String'
+  api-path-to-file-name:
+    description: 'The path and file name on the API where the definition should be updated'
+    required: true
+    default: 'index.json'
+  version-name:
+    description: 'The new version name'
+    required: true
+    default: '1.0.0'
+  release-notes:
+    description: 'The new version release notes'
+    required: false
+    default: ''
+outputs:
+  createdVersionId:
+    description: 'The newly created version ID'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
