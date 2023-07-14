@@ -1,5 +1,6 @@
 # push-openapi-to-postman
 
+This code is part of a blog post, and it is not maintained actively by Postman.
 Pushes an OpenAPI definition in your repository to Postman, creating a new version on an existing API.
 
 
