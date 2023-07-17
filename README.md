@@ -1,12 +1,17 @@
 # push-openapi-to-postman
 
-This code is part of a blog post, and it is not maintained actively by Postman.
+> This code is part of a blog post and is **not** actively maintained by Postman.
 
-Pushes an OpenAPI definition in your repository to Postman, creating a new version on an existing API.
+Pushes an OpenAPI definition in your repository to Postman and creates a new API version.
 
+You will need to add the following values to your repository:
+
+- The `API_ID` environment variable that contains the ID of the API you want to update.
+- The `POSTMAN_API_KEY` secret that contains your valid Postman API key. The API key requires admin permissions.
 
 ## Usage
-Example of manual trigger, asking for the required inputs.
+
+The following is an example of manual trigger and its required input:
 
 ```yaml
 name: Sync OpenAPI with Postman
@@ -39,18 +44,12 @@ jobs:
           release-notes: ${{ github.event.inputs.releaseNotes }}
 ```
 
-For the previous example to work you need to define:
-- An environment variable `API_ID` containing the API id that is going to be updated
-- A secret called `POSTMAN_API_KEY` containing the Postman API key with admin permission on the API that is going to be modified.
+**Note:**
 
-Other things to take into account:
-
-* Make sure the `path-to-definition` points to the file in your repo that contains your OpenAPI definition. 
-* The OpenAPI definition must be in JSON format.
-* Make sure the file name to update in your API schema matches the value on the `api-path-to-file-name` input.  
-
+- The `path-to-definition` value must point to the file in your repo that contains your OpenAPI definition.
+- Your OpenAPI definition must be in JSON format.
+- The file name in your API schema must match the `api-path-to-file-name` value.
 
 ## License
 
 MIT
-
