@@ -1,7 +1,7 @@
 {
-  "name": "javascript-action",
-  "version": "1.0.0",
-  "description": "JavaScript Action Template",
+  "name": "push-openapi-to-postman",
+  "version": "1.1.0",
+  "description": "Push Open API to Postman Action",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
