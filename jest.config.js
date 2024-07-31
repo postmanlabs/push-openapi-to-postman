@@ -3,5 +3,3 @@ const config = {
     resetMocks: true,
     restoreMocks: true
 };
-
-module.exports = config;
