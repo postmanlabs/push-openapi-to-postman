@@ -6237,8 +6237,8 @@ const readFile = async (path) => {
     } catch (e) {
         try {
             const [doc] = new yaml.Parser().parse(content.toString())
-            if (doc.value.items && doc.value.items.length > 0) {
-                return yaml.stringify(yaml.parse(content.toString()));
+            if (doc.value.items && doc.value.items.length > 0 && yaml.stringify(yaml.parse(content.toString()))) {
+                return content.toString();
             }
         } catch (ye) { /* empty */ }
         throw e;
