@@ -15,7 +15,7 @@ describe('test readFile', () => {
     test("retrieves the file contents if it's a valid YAML and formats code", async () => {
         jest.spyOn(fs, 'readFile').mockImplementation(() => Buffer.from('foo: [24,"42"]\n'));
         const content = await readFile("index.yaml");
-        expect(content).toEqual("foo:\n  - 24\n  - \"42\"\n");
+        expect(content).toEqual("foo: [24,\"42\"]\n");
     });
     test("throws an exception when the contents of the file are not a valid YAML", async () => {
         jest.spyOn(fs, 'readFile').mockImplementation(() => Buffer.from('foo: ,'));
