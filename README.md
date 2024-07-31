@@ -47,7 +47,7 @@ jobs:
 **Note:**
 
 - The `path-to-definition` value must point to the file in your repo that contains your OpenAPI definition.
-- Your OpenAPI definition must be in JSON format.
+- Your OpenAPI definition must be in JSON or YAML format.
 - The file name in your API schema must match the `api-path-to-file-name` value.
 
 ## License
