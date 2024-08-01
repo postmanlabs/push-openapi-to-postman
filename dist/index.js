@@ -6223,13 +6223,13 @@ exports["default"] = _default;
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(2186);
-const { promises: fs } = __nccwpck_require__(7147);
+const { promises: fsAsync, fsSync } = __nccwpck_require__(7147);
 const yaml = __nccwpck_require__(4083);
 
-const readFile = async (path) => {
+const readSchemaFile = async (path) => {
 
     core.info(`Reading ${path} file ...`);
-    let content = await fs.readFile(path, 'utf8');
+    let content = await fsAsync.readFile(path, 'utf8');
 
     try {
         core.debug(`File read`);
@@ -6243,9 +6243,16 @@ const readFile = async (path) => {
         } catch (ye) { /* empty */ }
         throw e;
     }
-}
+};
 
-module.exports = readFile;
+const readReleaseNotes = async (path) => {
+    if (fsSync.existsSync(path)) {
+        let content = await fsAsync.readFile(path, 'utf8');
+        return content.toString();
+    }
+};
+
+module.exports = { readSchemaFile, readReleaseNotes };
 
 
 /***/ }),
@@ -6254,7 +6261,7 @@ module.exports = readFile;
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(2186);
-const readFile = __nccwpck_require__(1589);
+const { readSchemaFile, readReleaseNotes } = __nccwpck_require__(1589);
 const updateSchemaFile = __nccwpck_require__(3194);
 const createNewVersion = __nccwpck_require__(700);
 const getSchemaId = __nccwpck_require__(5195);
@@ -6268,6 +6275,7 @@ async function run() {
     const fileName = core.getInput('api-path-to-file-name');
     const versionName = core.getInput('version-name');
     const releaseNotes = core.getInput('release-notes');
+    const releaseNotesFileName = core.getInput('release-notes-file-name');
 
     core.info(`Inputs:`);
     core.info(`  path-to-definition: ${path}`);
@@ -6275,18 +6283,22 @@ async function run() {
     core.info(`  api-path-to-file-name: ${fileName}`);
     core.info(`  version-name: ${versionName}`);
     core.info(`  release-notes: ${releaseNotes}`);
+    core.info(`  release-notes-file-name: ${releaseNotesFileName}`);
 
     core.info(`Retrieving the Schema id from the API ...`);
     const schemaId = await getSchemaId(postmanApiKey, apiId);
 
     core.info(`Reading OpenAPI definition file ...`);
-    const openAPIFileContents = await readFile(path);
+    const openAPIFileContents = await readSchemaFile(path);
 
     core.info(`Updating schema file ...`);
     await updateSchemaFile(postmanApiKey, apiId, schemaId, openAPIFileContents, fileName);
 
+    core.info(`Reading Release notes from file or string ...`);
+    const releaseNotesContent = releaseNotesFileName ? await readReleaseNotes(releaseNotesFileName) : releaseNotes;
+
     core.info(`Creating new version ...`);
-    const createdVersionId = await createNewVersion(postmanApiKey, apiId, schemaId, versionName, releaseNotes);
+    const createdVersionId = await createNewVersion(postmanApiKey, apiId, schemaId, versionName, releaseNotesContent);
 
     core.setOutput('createdVersionId', createdVersionId);
   } catch (error) {
