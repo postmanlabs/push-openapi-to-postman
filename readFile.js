@@ -1,11 +1,11 @@
 const core = require('@actions/core');
-const { promises: fs } = require('fs');
+const { promises: fsAsync, fsSync } = require('fs');
 const yaml = require('yaml');
 
-const readFile = async (path) => {
+const readSchemaFile = async (path) => {
 
     core.info(`Reading ${path} file ...`);
-    let content = await fs.readFile(path, 'utf8');
+    let content = await fsAsync.readFile(path, 'utf8');
 
     try {
         core.debug(`File read`);
@@ -19,6 +19,13 @@ const readFile = async (path) => {
         } catch (ye) { /* empty */ }
         throw e;
     }
-}
+};
 
-module.exports = readFile;
+const readReleaseNotes = async (path) => {
+    if (fsSync.existsSync(path)) {
+        let content = await fsAsync.readFile(path, 'utf8');
+        return content.toString();
+    }
+};
+
+module.exports = { readSchemaFile, readReleaseNotes };
