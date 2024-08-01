@@ -6223,7 +6223,7 @@ exports["default"] = _default;
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(2186);
-const { promises: fsAsync, fsSync } = __nccwpck_require__(7147);
+const { promises: fsAsync, existsSync } = __nccwpck_require__(7147);
 const yaml = __nccwpck_require__(4083);
 
 const readSchemaFile = async (path) => {
@@ -6246,7 +6246,7 @@ const readSchemaFile = async (path) => {
 };
 
 const readReleaseNotes = async (path) => {
-    if (fsSync.existsSync(path)) {
+    if (existsSync(path)) {
         let content = await fsAsync.readFile(path, 'utf8');
         return content.toString();
     }

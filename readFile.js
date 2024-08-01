@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const { promises: fsAsync, fsSync } = require('fs');
+const { promises: fsAsync, existsSync } = require('fs');
 const yaml = require('yaml');
 
 const readSchemaFile = async (path) => {
@@ -22,7 +22,7 @@ const readSchemaFile = async (path) => {
 };
 
 const readReleaseNotes = async (path) => {
-    if (fsSync.existsSync(path)) {
+    if (existsSync(path)) {
         let content = await fsAsync.readFile(path, 'utf8');
         return content.toString();
     }
