@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Push OpenAPI to Postman
         id: pushApi
-        uses: davidespihernandez/push-openapi-to-postman@v1
+        uses: postmanlabs/push-openapi-to-postman@v1.2.0
         with:
           path-to-definition: ./api_definition.json
           postman-api-key: ${{ secrets.POSTMAN_API_KEY }}
