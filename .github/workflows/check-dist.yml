@@ -19,6 +19,7 @@ on:
 jobs:
   check-dist:
     runs-on: ubuntu-latest
+    timeout-minutes: 8
 
     steps:
       - uses: actions/checkout@v3
